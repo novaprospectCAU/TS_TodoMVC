@@ -1,6 +1,6 @@
 import { Item, inputCheck } from "./todoInput.js";
 import { toggleList } from "./toggleAll.js";
-import { controlOption, updateToolbar } from "./toolbar.js";
+import { currentFilter, updateToolbar } from "./toolbar.js";
 import { updateAll } from "./utils.js";
 
 export let todoItems: Array<Item> = [];
@@ -51,11 +51,11 @@ function deleteAllList() {
 function addAllList() {
   const todoList = document.querySelector(".todo-list");
 
-  if (controlOption === 0) {
+  if (currentFilter === "all") {
     for (let item of todoItems) {
       makeListItem(item);
     }
-  } else if (controlOption === 1) {
+  } else if (currentFilter === "active") {
     for (let item of todoItems) {
       if (item.isChecked === false) {
         makeListItem(item);

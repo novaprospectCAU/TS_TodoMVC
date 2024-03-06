@@ -3,7 +3,7 @@
 // }
 
 import { updateCheckButton } from "./todoInput.js";
-import { todoItems, updateList } from "./todoList.js";
+import { updateList } from "./todoList.js";
 import { updateToolbar } from "./toolbar.js";
 
 export function updateAll() {

@@ -1,7 +1,6 @@
-let currentFilter = "all";
 import { deleteCheckedListItems, todoItems, deleteAllChecked, } from "./todoList.js";
 import { updateAll } from "./utils.js";
-export let controlOption = 0;
+export let currentFilter = "all";
 export let clearOption = 0;
 /**
  * 툴바창을 보이게 하지 정하는 함수
@@ -16,10 +15,10 @@ function toggleToobar() {
     }
 }
 /**
- * 현재 보기 창의 옵션 번호를 새로 지정하는 함수
+ * 현재 보기 창의 옵션을 새로 지정하는 함수
  */
-function changeControlOption(buttonNumber) {
-    controlOption = buttonNumber;
+function changeControlOption(filter) {
+    currentFilter = filter;
 }
 /**
  * 보기 창 선택 메뉴에서 선택한 것에 따라 제어하는 함수
@@ -33,8 +32,8 @@ export function clickOption() {
     }
     else {
         allButton.addEventListener("click", () => {
-            if (controlOption !== 0) {
-                changeControlOption(0);
+            if (currentFilter !== "all") {
+                changeControlOption("all");
                 updateAll();
             }
         });
@@ -44,8 +43,8 @@ export function clickOption() {
     }
     else {
         activeButton.addEventListener("click", () => {
-            if (controlOption !== 1) {
-                changeControlOption(1);
+            if (currentFilter !== "active") {
+                changeControlOption("active");
                 updateAll();
             }
         });
@@ -55,8 +54,8 @@ export function clickOption() {
     }
     else {
         completedButton.addEventListener("click", () => {
-            if (controlOption !== 2) {
-                changeControlOption(2);
+            if (currentFilter !== "completed") {
+                changeControlOption("completed");
                 updateAll();
             }
         });
@@ -94,12 +93,12 @@ function updateOption() {
         throw new Error("option(s) are not working");
     }
     else {
-        if (controlOption === 0) {
+        if (currentFilter === "all") {
             optionAll.classList.remove("control-button--unclicked");
             optionActive.classList.add("control-button--unclicked");
             optionCompleted.classList.add("control-button--unclicked");
         }
-        else if (controlOption === 1) {
+        else if (currentFilter === "active") {
             optionAll.classList.add("control-button--unclicked");
             optionActive.classList.remove("control-button--unclicked");
             optionCompleted.classList.add("control-button--unclicked");
