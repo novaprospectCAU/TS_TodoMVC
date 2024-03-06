@@ -25,8 +25,8 @@ function pushItem(id: number, text: string) {
  * 새로운 입력값을 받는 함수
  */
 export function newInput() {
-  const inputSpace = document.querySelector(".todo-input");
-  inputSpace.addEventListener("keyup", (e: Event) => {
+  const inputSpace = <HTMLInputElement>document.getElementById("todo-input");
+  inputSpace.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
       const string = inputCheck(inputSpace);
       if (string !== "") {
