@@ -10,8 +10,8 @@ export let checkButtonStatus = "init" as CheckStatus;
 /**
  * 입력받은 문자열이 저장 가능한 형태인지 확인하는 함수
  */
-export function inputCheck(input) {
-  return input.value.trim();
+export function inputCheck(input: string) {
+  return input.trim();
 }
 
 /**
@@ -28,7 +28,7 @@ export function newInput() {
   const inputSpace = <HTMLInputElement>document.getElementById("todo-input");
   inputSpace.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
-      const string = inputCheck(inputSpace);
+      const string = inputCheck(inputSpace.value);
       if (string !== "") {
         pushItem(highestId, string);
         inputSpace.value = "";

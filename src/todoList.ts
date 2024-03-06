@@ -162,7 +162,7 @@ function makeListItem(item) {
     textToInputValue(newListItemInput, newListItemText);
   });
   newListItemInput.addEventListener("keyup", (e) => {
-    if (e.key === "Enter" && inputCheck(newListItemInput) !== "") {
+    if (e.key === "Enter" && inputCheck(newListItemInput.value) !== "") {
       console.debug("enter");
       // inputValueToText(item, newListItemText, newListItemInput);
       newListItemInput.blur();
@@ -171,7 +171,7 @@ function makeListItem(item) {
     }
   });
   newListItemInput.addEventListener("blur", () => {
-    if (inputCheck(newListItemInput)) {
+    if (inputCheck(newListItemInput.value)) {
       console.debug("blur");
       inputValueToText(item, newListItemText, newListItemInput);
       updateAll();
