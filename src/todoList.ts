@@ -73,7 +73,7 @@ function addAllList() {
 /**
  * 삭제 버튼을 눌렀을 때 작동하는 함수
  */
-function handleDeleteItem(itemId: number, listItem) {
+function handleDeleteItem(itemId: number, listItem: HTMLLIElement) {
   // 2
   todoItems = todoItems.filter((item) => item.id !== itemId);
   // 3
@@ -84,7 +84,7 @@ function handleDeleteItem(itemId: number, listItem) {
 /**
  * 체크 버튼을 눌렀을 때 작동하는 함수
  */
-function handleCheckItem(item: Item, listItem) {
+function handleCheckItem(item: Item, listItem: HTMLLIElement) {
   //2
   if (item.isChecked === false) {
     item.isChecked = true;
@@ -95,6 +95,14 @@ function handleCheckItem(item: Item, listItem) {
   const ITEM_CHECKED = "todo-list__item-checked";
   const checkButton = listItem.querySelector(".todo-list__item-check-button");
   const itemText = listItem.querySelector(".todo-list__item-text");
+
+  if (!checkButton) {
+    throw new Error("check button not work");
+  }
+  if (!itemText) {
+    throw new Error("item text not work");
+  }
+
   if (item.isChecked === true) {
     itemText.classList.add(ITEM_CHECKED);
     checkButton.textContent = "✔️";
@@ -181,7 +189,11 @@ function makeListItem(item: Item) {
   newListItemInput.addEventListener("blur", () => {
     if (inputCheck(newListItemInput.value)) {
       console.debug("blur");
-      inputValueToText(item, newListItemText, newListItemInput);
+      inputValueToText(
+        item,
+        <HTMLInputElement>newListItemText,
+        newListItemInput
+      );
       updateAll();
       console.debug("blur ends");
     }
@@ -191,8 +203,12 @@ function makeListItem(item: Item) {
 /**
  * 텍스트 저장값을 인풋 필드 입력값으로 변환하는 함수
  */
-function textToInputValue(newListItemInput, newListItemText) {
-  newListItemInput.value = newListItemText.textContent;
+function textToInputValue(
+  newListItemInput: HTMLInputElement,
+  newListItemText: HTMLDivElement
+) {
+  if (newListItemText.textContent)
+    newListItemInput.value = newListItemText.textContent;
 
   newListItemText.classList.add("todo-list--switch");
   newListItemInput.classList.remove("todo-list--switch");
@@ -201,10 +217,15 @@ function textToInputValue(newListItemInput, newListItemText) {
 /**
  * 인풋 필드 입력값을 텍스트로 변환하는 함수
  */
-function inputValueToText(item: Item, newListItemText, newListItemInput) {
-  item.text = newListItemInput.value;
-  newListItemText.textContent = newListItemInput.value;
-
+function inputValueToText(
+  item: Item,
+  newListItemText: HTMLDivElement,
+  newListItemInput: HTMLInputElement
+) {
+  if (newListItemInput.value) {
+    item.text = newListItemInput.value;
+    newListItemText.textContent = newListItemInput.value;
+  }
   newListItemInput.classList.add("todo-list--switch");
   newListItemText.classList.remove("todo-list--switch");
 }

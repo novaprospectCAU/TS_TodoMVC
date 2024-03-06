@@ -1,4 +1,4 @@
-import { todoItems } from "./todoList";
+import { todoItems } from "./todoList.js";
 
 export let isToggleAll = false;
 
