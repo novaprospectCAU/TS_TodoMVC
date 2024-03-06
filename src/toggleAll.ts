@@ -9,9 +9,13 @@ export function toggleList() {
   const todoList = document.querySelector(".todo-list");
   const MENU_HIDE = "menu__select--hiding";
 
-  if (todoItems.length === 0) {
-    todoList.classList.add(MENU_HIDE);
+  if (!todoList) {
+    throw new Error("todo list not found");
   } else {
-    todoList.classList.remove(MENU_HIDE);
+    if (todoItems.length === 0) {
+      todoList.classList.add(MENU_HIDE);
+    } else {
+      todoList.classList.remove(MENU_HIDE);
+    }
   }
 }

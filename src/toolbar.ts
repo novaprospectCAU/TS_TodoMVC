@@ -11,14 +11,12 @@ import { updateAll } from "./utils.js";
 
 export let controlOption = 0;
 export let clearOption = 0;
-// export let numberOfItems = 0;
-// export let numberOfChecks = 0;
 
 /**
  * 툴바창을 보이게 하지 정하는 함수
  */
 function toggleToobar() {
-  const toolbar = document.querySelector(".todo-list__menu");
+  const toolbar = document.querySelector(".todo-list__menu") as Element;
   if (todoItems.length === 0) {
     toolbar.classList.add("todo-list__menu--hiding");
   } else {
@@ -29,7 +27,7 @@ function toggleToobar() {
 /**
  * 현재 보기 창의 옵션 번호를 새로 지정하는 함수
  */
-function changeControlOption(buttonNumber) {
+function changeControlOption(buttonNumber: number) {
   controlOption = buttonNumber;
 }
 
@@ -41,24 +39,36 @@ export function clickOption() {
   const activeButton = document.querySelector(".control-active");
   const completedButton = document.querySelector(".control-completed");
 
-  allButton.addEventListener("click", () => {
-    if (controlOption !== 0) {
-      changeControlOption(0);
-      updateAll();
-    }
-  });
-  activeButton.addEventListener("click", () => {
-    if (controlOption !== 1) {
-      changeControlOption(1);
-      updateAll();
-    }
-  });
-  completedButton.addEventListener("click", () => {
-    if (controlOption !== 2) {
-      changeControlOption(2);
-      updateAll();
-    }
-  });
+  if (!allButton) {
+    throw new Error("All Button Cannot Found");
+  } else {
+    allButton.addEventListener("click", () => {
+      if (controlOption !== 0) {
+        changeControlOption(0);
+        updateAll();
+      }
+    });
+  }
+  if (!activeButton) {
+    throw new Error("Active Button Cannot Found");
+  } else {
+    activeButton.addEventListener("click", () => {
+      if (controlOption !== 1) {
+        changeControlOption(1);
+        updateAll();
+      }
+    });
+  }
+  if (!completedButton) {
+    throw new Error("Completed Button Cannot Found");
+  } else {
+    completedButton.addEventListener("click", () => {
+      if (controlOption !== 2) {
+        changeControlOption(2);
+        updateAll();
+      }
+    });
+  }
 }
 
 /**
@@ -77,9 +87,13 @@ export function updateToolbar() {
 function updateCounter() {
   const counter = document.querySelector(".menu__count");
 
-  counter.textContent = `${
-    todoItems.filter((item) => item.isChecked === false).length
-  } items left`;
+  if (!counter) {
+    throw new Error("counter not found");
+  } else {
+    counter.textContent = `${
+      todoItems.filter((item) => item.isChecked === false).length
+    } items left`;
+  }
 }
 
 /**
@@ -90,18 +104,22 @@ function updateOption() {
   const optionActive = document.querySelector(".control-active");
   const optionCompleted = document.querySelector(".control-completed");
 
-  if (controlOption === 0) {
-    optionAll.classList.remove("control-button--unclicked");
-    optionActive.classList.add("control-button--unclicked");
-    optionCompleted.classList.add("control-button--unclicked");
-  } else if (controlOption === 1) {
-    optionAll.classList.add("control-button--unclicked");
-    optionActive.classList.remove("control-button--unclicked");
-    optionCompleted.classList.add("control-button--unclicked");
+  if (!(optionAll && optionActive && optionCompleted)) {
+    throw new Error("option(s) are not working");
   } else {
-    optionAll.classList.add("control-button--unclicked");
-    optionActive.classList.add("control-button--unclicked");
-    optionCompleted.classList.remove("control-button--unclicked");
+    if (controlOption === 0) {
+      optionAll.classList.remove("control-button--unclicked");
+      optionActive.classList.add("control-button--unclicked");
+      optionCompleted.classList.add("control-button--unclicked");
+    } else if (controlOption === 1) {
+      optionAll.classList.add("control-button--unclicked");
+      optionActive.classList.remove("control-button--unclicked");
+      optionCompleted.classList.add("control-button--unclicked");
+    } else {
+      optionAll.classList.add("control-button--unclicked");
+      optionActive.classList.add("control-button--unclicked");
+      optionCompleted.classList.remove("control-button--unclicked");
+    }
   }
 }
 
@@ -111,10 +129,15 @@ function updateOption() {
 function updateClear() {
   const clearButton = document.querySelector(".menu-clear");
   const HIDE_CLEAR = "menu-clear--hiding";
-  if (todoItems.filter((item) => item.isChecked === true).length > 0) {
-    clearButton.classList.remove(HIDE_CLEAR);
+
+  if (!clearButton) {
+    throw new Error("clear button not found");
   } else {
-    clearButton.classList.add(HIDE_CLEAR);
+    if (todoItems.filter((item) => item.isChecked === true).length > 0) {
+      clearButton.classList.remove(HIDE_CLEAR);
+    } else {
+      clearButton.classList.add(HIDE_CLEAR);
+    }
   }
 }
 
@@ -123,11 +146,16 @@ function updateClear() {
  */
 export function activateClearButton() {
   const clearButton = document.querySelector(".menu-clear");
-  clearButton.addEventListener("click", () => {
-    deleteAllChecked();
-    deleteCheckedListItems();
-    updateAll();
-  });
+
+  if (!clearButton) {
+    throw new Error("clear button not found");
+  } else {
+    clearButton.addEventListener("click", () => {
+      deleteAllChecked();
+      deleteCheckedListItems();
+      updateAll();
+    });
+  }
 }
 
 clickOption();

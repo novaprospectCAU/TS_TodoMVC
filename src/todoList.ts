@@ -1,9 +1,9 @@
-import { inputCheck } from "./todoInput.js";
+import { Item, inputCheck } from "./todoInput.js";
 import { toggleList } from "./toggleAll.js";
 import { controlOption, updateToolbar } from "./toolbar.js";
 import { updateAll } from "./utils.js";
 
-export let todoItems = [];
+export let todoItems: Array<Item> = [];
 
 /**
  * 배열에서 isChecked가 true인 모든 개체들을 제거하는 함수
@@ -35,9 +35,13 @@ export function deleteCheckedListItems() {
 function deleteAllList() {
   const todoList = document.querySelector(".todo-list");
 
-  while (todoList.lastChild) {
-    console.trace(todoList.lastChild);
-    todoList.lastChild.remove();
+  if (!todoList) {
+    throw new Error("TodoList is unable to use");
+  } else {
+    while (todoList.lastChild) {
+      console.trace(todoList.lastChild);
+      todoList.lastChild.remove();
+    }
   }
 }
 
@@ -80,7 +84,7 @@ function handleDeleteItem(itemId: number, listItem) {
 /**
  * 체크 버튼을 눌렀을 때 작동하는 함수
  */
-function handleCheckItem(item, listItem) {
+function handleCheckItem(item: Item, listItem) {
   //2
   if (item.isChecked === false) {
     item.isChecked = true;
@@ -103,7 +107,7 @@ function handleCheckItem(item, listItem) {
 /**
  * 리스트 하나를 추가하는 함수(이미 있는 개체로 제작)
  */
-function makeListItem(item) {
+function makeListItem(item: Item) {
   const todoList = document.querySelector(".todo-list");
 
   const newListItem = document.createElement("li");
@@ -144,7 +148,11 @@ function makeListItem(item) {
   newListItemLeft.append(newListItemInput);
   newListItem.append(newListItemLeft);
   newListItem.append(newListItemDeleteButton);
-  todoList.append(newListItem);
+  if (!todoList) {
+    throw new Error("cannot append new listItem to todoList");
+  } else {
+    todoList.append(newListItem);
+  }
 
   newListItemDeleteButton.addEventListener("click", () => {
     handleDeleteItem(item.id, newListItem);
@@ -193,7 +201,7 @@ function textToInputValue(newListItemInput, newListItemText) {
 /**
  * 인풋 필드 입력값을 텍스트로 변환하는 함수
  */
-function inputValueToText(item, newListItemText, newListItemInput) {
+function inputValueToText(item: Item, newListItemText, newListItemInput) {
   item.text = newListItemInput.value;
   newListItemText.textContent = newListItemInput.value;
 

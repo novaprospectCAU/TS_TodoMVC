@@ -4,6 +4,12 @@ import { updateAll } from "./utils.js";
 
 let highestId = 0;
 
+export type Item = {
+  id: number;
+  isChecked: boolean;
+  text: string;
+};
+
 type CheckStatus = "init" | "off" | "on";
 export let checkButtonStatus = "init" as CheckStatus;
 
@@ -90,18 +96,22 @@ function updateCheckButtonVisual() {
   const ON = "check-all--on";
   const INIT = "check-all--initial";
 
-  if (checkButtonStatus === "init") {
-    checkButton.classList.remove(OFF);
-    checkButton.classList.remove(ON);
-    checkButton.classList.add(INIT);
-  } else if (checkButtonStatus === "off") {
-    checkButton.classList.add(OFF);
-    checkButton.classList.remove(ON);
-    checkButton.classList.remove(INIT);
+  if (!checkButton) {
+    throw new Error("check button not work");
   } else {
-    checkButton.classList.remove(OFF);
-    checkButton.classList.add(ON);
-    checkButton.classList.remove(INIT);
+    if (checkButtonStatus === "init") {
+      checkButton.classList.remove(OFF);
+      checkButton.classList.remove(ON);
+      checkButton.classList.add(INIT);
+    } else if (checkButtonStatus === "off") {
+      checkButton.classList.add(OFF);
+      checkButton.classList.remove(ON);
+      checkButton.classList.remove(INIT);
+    } else {
+      checkButton.classList.remove(OFF);
+      checkButton.classList.add(ON);
+      checkButton.classList.remove(INIT);
+    }
   }
 }
 
@@ -132,16 +142,20 @@ function actualCheckAllButton() {
 export function checkAllButton() {
   const checkButton = document.querySelector(".check-all");
   updateCheckButton();
-  checkButton.addEventListener("click", () => {
-    updateCheckButton();
-    if (checkButtonStatus === "init") {
-    } else {
-      actualCheckAllButton();
+  if (!checkButton) {
+    throw new Error("check button not work");
+  } else {
+    checkButton.addEventListener("click", () => {
       updateCheckButton();
-      activateClearButton();
-    }
-    updateAll();
-  });
+      if (checkButtonStatus === "init") {
+      } else {
+        actualCheckAllButton();
+        updateCheckButton();
+        activateClearButton();
+      }
+      updateAll();
+    });
+  }
 }
 
 newInput();
