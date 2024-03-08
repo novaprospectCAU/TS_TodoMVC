@@ -7,7 +7,7 @@ import { updateAll } from "./utils.js";
 
 export type Filter = "all" | "active" | "completed";
 
-export let currentFilter = "all" as Filter;
+export let currentFilter: Filter = "all";
 
 export let clearOption = 0;
 

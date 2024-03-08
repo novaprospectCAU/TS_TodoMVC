@@ -3,7 +3,7 @@ import { toggleList } from "./toggleAll.js";
 import { currentFilter, updateToolbar } from "./toolbar.js";
 import { updateAll } from "./utils.js";
 
-export let todoItems: Array<Item> = [];
+export let todoItems: Item[] = [];
 
 /**
  * 배열에서 isChecked가 true인 모든 개체들을 제거하는 함수
@@ -189,11 +189,7 @@ function makeListItem(item: Item) {
   newListItemInput.addEventListener("blur", () => {
     if (inputCheck(newListItemInput.value)) {
       console.debug("blur");
-      inputValueToText(
-        item,
-        <HTMLInputElement>newListItemText,
-        newListItemInput
-      );
+      inputValueToText(item, newListItemText, newListItemInput);
       updateAll();
       console.debug("blur ends");
     }
@@ -219,7 +215,7 @@ function textToInputValue(
  */
 function inputValueToText(
   item: Item,
-  newListItemText: HTMLDivElement,
+  newListItemText: Element,
   newListItemInput: HTMLInputElement
 ) {
   if (newListItemInput.value) {

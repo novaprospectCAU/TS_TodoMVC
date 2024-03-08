@@ -11,7 +11,7 @@ export type Item = {
 };
 
 type CheckStatus = "init" | "off" | "on";
-export let checkButtonStatus = "init" as CheckStatus;
+export let checkButtonStatus: CheckStatus = "init";
 
 /**
  * 입력받은 문자열이 저장 가능한 형태인지 확인하는 함수
